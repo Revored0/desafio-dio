@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Classificador de Herói</title>
+    <style>
+        /* CSS - Estilização */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #16213e;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border: 2px solid #0f3460;
+        }
+
+        h1 {
+            color: #e94560;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a0a0a0;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #0f3460;
+            background-color: #0f3460;
+            color: white;
+            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #e94560;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0354c;
+        }
+
+        #resultado {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #0f3460;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none; /* Escondido por padrão */
+            border: 1px solid #e94560;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Guilda de Heróis</h1>
+        
+        <div class="input-group">
+            <label for="nomeHeroi">Nome do Herói</label>
+            <input type="text" id="nomeHeroi" placeholder="Ex: Arthas">
+        </div>
+
+        <div class="input-group">
+            <label for="xpHeroi">Quantidade de XP</label>
+            <input type="number" id="xpHeroi" placeholder="Ex: 5500">
+        </div>
+
+        <button onclick="classificarHeroi()">Verificar Nível</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        // JS - Lógica
+        function classificarHeroi() {
+            // 1. Variáveis (Armazenar entradas)
+            let nome = document.getElementById('nomeHeroi').value;
+            let xp = parseInt(document.getElementById('xpHeroi').value);
+            let nivel = "";
+
+            // Validação simples
+            if (nome === "" || isNaN(xp)) {
+                alert("Por favor, preencha o nome e um valor de XP válido.");
+                return;
+            }
+
+            // Estrutura de dados para auxiliar o Laço de Repetição
+            // Definimos o limite máximo de cada nível
+            const niveis = [
+                { limite: 1000, nome: "Ferro" },
+                { limite: 2000, nome: "Bronze" },
+                { limite: 5000, nome: "Prata" },
+                { limite: 7000, nome: "Ouro" },
+                { limite: 8000, nome: "Platina" },
+                { limite: 9000, nome: "Ascendente" },
+                { limite: 10000, nome: "Imortal" }
+            ];
+
+            // 2. Laços de Repetição (Loop)
+            // Percorremos a lista de níveis para encontrar onde o XP se encaixa
+            let nivelEncontrado = false;
+            
+            for (let i = 0; i < niveis.length; i++) {
+                // 3. Estruturas de decisões (If) e Operadores (<=)
+                if (xp <= niveis[i].limite) {
+                    nivel = niveis[i].nome;
+                    nivelEncontrado = true;
+                    break; // Para o laço assim que encontrar o nível correto
+                }
+            }
+
+            // Se o loop terminou e não encontrou (ou seja, é maior que 10.000)
+            if (!nivelEncontrado) {
+                nivel = "Radiante";
+            }
+
+            // 4. Saída
+            const divResultado = document.getElementById('resultado');
+            divResultado.style.display = 'block';
+            divResultado.innerHTML = `O Herói de nome <strong>${nome}</strong> está no nível de <strong>${nivel}</strong>`;
+        }
+    </script>
+</body>
+</html>
