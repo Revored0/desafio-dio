@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Partidas Rankeadas</title>
+    <style>
+        /* CSS - Design Gamer */
+        body {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #0b0c10;
+            color: #66fcf1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1f2833;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(102, 252, 241, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid #45a29e;
+        }
+
+        h1 { margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .input-group { margin-bottom: 15px; text-align: left; }
+        
+        label { display: block; margin-bottom: 5px; color: #c5c6c7; }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            background-color: #0b0c10;
+            border: 1px solid #45a29e;
+            color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1.1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            background-color: #45a29e;
+            color: #0b0c10;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #66fcf1; box-shadow: 0 0 15px #66fcf1; }
+
+        #resultado {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px;
+            border: 1px dashed #66fcf1;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rank Calculator</h1>
+        
+        <div class="input-group">
+            <label for="vitorias">Quantidade de Vitórias</label>
+            <input type="number" id="vitorias" placeholder="Ex: 110">
+        </div>
+
+        <div class="input-group">
+            <label for="derrotas">Quantidade de Derrotas</label>
+            <input type="number" id="derrotas" placeholder="Ex: 25">
+        </div>
+
+        <button onclick="executarCalculo()">Calcular Rank</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        // --- LÓGICA DO DESAFIO ---
+
+        // Configuração dos Ranks (Para usar Laços de Repetição)
+        const ranks = [
+            { max: 10, elo: "Ferro" },
+            { max: 20, elo: "Bronze" },
+            { max: 50, elo: "Prata" },
+            { max: 80, elo: "Ouro" },
+            { max: 90, elo: "Diamante" },
+            { max: 100, elo: "Lendário" }
+        ];
+
+        // 1. Função com parâmetros e retorno
+        function calcularSaldo(vitorias, derrotas) {
+            return vitorias - derrotas;
+        }
+
+        // Função principal
+        function executarCalculo() {
+            // Captura de Variáveis
+            let vitorias = parseInt(document.getElementById('vitorias').value);
+            let derrotas = parseInt(document.getElementById('derrotas').value);
+            let nivel = "";
+
+            // Validação básica
+            if (isNaN(vitorias) || isNaN(derrotas)) {
+                alert("Por favor, insira números válidos.");
+                return;
+            }
+
+            // Uso da função de cálculo
+            let saldoVitorias = calcularSaldo(vitorias, derrotas);
+
+            // 2. Laços de Repetição + Estruturas de Decisão
+            // Vamos percorrer o array de ranks para achar onde o saldo se encaixa
+            let encontrouRank = false;
+            
+            for (let i = 0; i < ranks.length; i++) {
+                if (saldoVitorias <= ranks[i].max) {
+                    nivel = ranks[i].elo;
+                    encontrouRank = true;
+                    break; // Para o loop assim que achar
+                }
+            }
+
+            // Caso não tenha entrado em nenhum if do loop (maior que 100)
+            if (!encontrouRank) {
+                nivel = "Imortal";
+            }
+
+            // Exibir Resultado
+            const divResultado = document.getElementById('resultado');
+            divResultado.style.display = 'block';
+            divResultado.innerHTML = `O Herói tem de saldo de <strong>${saldoVitorias}</strong> e está no nível de <strong>${nivel}</strong>`;
+        }
+    </script>
+</body>
+</html>

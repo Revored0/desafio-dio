@@ -15,6 +15,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column; /* Garante alinhamento vertical se tiver itens fora */
         }
 
         .container {
@@ -51,7 +52,7 @@
             border: 1px solid #0f3460;
             background-color: #0f3460;
             color: white;
-            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+            box-sizing: border-box; 
         }
 
         button {
@@ -77,8 +78,23 @@
             background-color: #0f3460;
             border-radius: 5px;
             font-weight: bold;
-            display: none; /* Escondido por padrão */
+            display: none; 
             border: 1px solid #e94560;
+        }
+
+        /* --- NOVO ESTILO PARA O LINK --- */
+        .nav-link {
+            display: block;
+            margin-top: 20px;
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #e94560;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -100,24 +116,22 @@
         <button onclick="classificarHeroi()">Verificar Nível</button>
 
         <div id="resultado"></div>
+
+        <a href="desafio2.html" class="nav-link">Ir para o Desafio 2 (Calculadora) →</a>
     </div>
 
     <script>
         // JS - Lógica
         function classificarHeroi() {
-            // 1. Variáveis (Armazenar entradas)
             let nome = document.getElementById('nomeHeroi').value;
             let xp = parseInt(document.getElementById('xpHeroi').value);
             let nivel = "";
 
-            // Validação simples
             if (nome === "" || isNaN(xp)) {
                 alert("Por favor, preencha o nome e um valor de XP válido.");
                 return;
             }
 
-            // Estrutura de dados para auxiliar o Laço de Repetição
-            // Definimos o limite máximo de cada nível
             const niveis = [
                 { limite: 1000, nome: "Ferro" },
                 { limite: 2000, nome: "Bronze" },
@@ -128,25 +142,20 @@
                 { limite: 10000, nome: "Imortal" }
             ];
 
-            // 2. Laços de Repetição (Loop)
-            // Percorremos a lista de níveis para encontrar onde o XP se encaixa
             let nivelEncontrado = false;
             
             for (let i = 0; i < niveis.length; i++) {
-                // 3. Estruturas de decisões (If) e Operadores (<=)
                 if (xp <= niveis[i].limite) {
                     nivel = niveis[i].nome;
                     nivelEncontrado = true;
-                    break; // Para o laço assim que encontrar o nível correto
+                    break; 
                 }
             }
 
-            // Se o loop terminou e não encontrou (ou seja, é maior que 10.000)
             if (!nivelEncontrado) {
                 nivel = "Radiante";
             }
 
-            // 4. Saída
             const divResultado = document.getElementById('resultado');
             divResultado.style.display = 'block';
             divResultado.innerHTML = `O Herói de nome <strong>${nome}</strong> está no nível de <strong>${nivel}</strong>`;
